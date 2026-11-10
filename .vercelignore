@@ -6,3 +6,10 @@ website docs/
 __pycache__/
 *.py[cod]
 .env*
+node_modules/
+.neon
+.neon/
+package.json
+package-lock.json
+neon.ts
+ecosystem.config.js
