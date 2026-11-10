@@ -77,7 +77,7 @@ body { font-family: "DM Sans", sans-serif; background: #f5f1ea; color: var(--ink
 .hero-visual__image {
   position: absolute;
   inset: 0;
-  background-image: url('/media/shop%20image/ChatGPT%20Image%20Aug%2031,%202026,%2007_28_00%20PM.png');
+  background-image: url('../images/hero-showroom.png');
   background-size: cover;
   background-position: center;
   filter: saturate(0.9) contrast(1.05);

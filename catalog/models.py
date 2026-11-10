@@ -12,7 +12,7 @@ class Category(models.Model):
         blank=True,
         null=True,
            validators=[FileExtensionValidator(["jpg", "jpeg", "png", "webp"])],
-           help_text="Optional category image. Use JPEG, PNG, or WebP up to 10 MB."
+           help_text="Optional category image. Use JPEG, PNG, or WebP up to 4 MB."
     )
     is_active = models.BooleanField(default=True, help_text="Turn off to hide this category from the website.")
     display_order = models.PositiveIntegerField(default=0, help_text="Lower numbers appear first in menus.")
@@ -103,7 +103,7 @@ class ItemImage(models.Model):
     image = models.ImageField(
         upload_to="items/",
         validators=[FileExtensionValidator(["jpg", "jpeg", "png", "webp"])],
-        help_text="Upload a JPEG, PNG, or WebP image up to 10 MB.",
+        help_text="Upload a JPEG, PNG, or WebP image up to 4 MB.",
     )
     alt_text = models.CharField(max_length=150, blank=True, help_text="Short description for accessibility and search engines.")
     is_primary = models.BooleanField(default=False, help_text="Use this image as the item thumbnail and first gallery image.")

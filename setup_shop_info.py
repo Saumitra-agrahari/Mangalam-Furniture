@@ -1,7 +1,11 @@
 import os
 import django
+from decouple import config
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'manglam_furniture.settings.dev')
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE',
+    config('DJANGO_SETTINGS_MODULE', default='manglam_furniture.settings.dev'),
+)
 django.setup()
 
 from shop_info.models import ShopInfo

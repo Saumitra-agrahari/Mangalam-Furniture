@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "manglam_furniture/wsgi.py": {
+      "maxDuration": 30
+    }
+  }
+}
