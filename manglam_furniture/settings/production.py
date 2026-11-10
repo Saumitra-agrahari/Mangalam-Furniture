@@ -77,12 +77,22 @@ if _missing_s3:
     )
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", default="").strip() or None
-AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL", default="").strip() or None
+AWS_S3_REGION_NAME = (
+    config("AWS_S3_REGION_NAME", default="").strip()
+    or config("AWS_REGION", default="").strip()
+    or None
+)
+AWS_S3_ENDPOINT_URL = (
+    config("AWS_S3_ENDPOINT_URL", default="").strip()
+    or config("AWS_ENDPOINT_URL_S3", default="").strip()
+    or None
+)
 AWS_S3_CUSTOM_DOMAIN = config("AWS_S3_CUSTOM_DOMAIN", default="").strip() or None
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
+AWS_S3_ADDRESSING_STYLE = "path"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST", default="").strip()

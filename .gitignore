@@ -1,4 +1,6 @@
 .env
+.env.*
+!.env.example
 __pycache__/
 *.py[cod]
 db.sqlite3
@@ -7,3 +9,8 @@ staticfiles/
 .venv/
 venv/
 .DS_Store
+.neon
+node_modules/
+package.json
+package-lock.json
+neon.ts
