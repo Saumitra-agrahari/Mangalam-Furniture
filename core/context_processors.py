@@ -1,10 +1,9 @@
-from catalog.models import Category
-from shop_info.models import ShopInfo
+from core.cache import get_active_categories, get_shop_info
 
 
 def site_context(request):
     return {
         "site_name": "Manglam Furniture",
-        "nav_categories": Category.objects.filter(is_active=True),
-        "shop_info": ShopInfo.objects.first(),
+        "nav_categories": get_active_categories(),
+        "shop_info": get_shop_info(),
     }

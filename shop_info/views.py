@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from .models import ShopInfo
+from core.cache import get_shop_info
 
 
 class AboutView(TemplateView):
@@ -8,5 +8,5 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["shop_info"] = ShopInfo.objects.first()
+        context["shop_info"] = get_shop_info()
         return context

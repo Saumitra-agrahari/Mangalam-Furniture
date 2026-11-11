@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Manglam Furniture handcrafted furniture catalog">
   <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,6 +84,6 @@
       <a href="https://www.google.com/maps/search/?api=1&query=Manglam+Furniture%2C+Kalwar+Road%2C+Jhotwara%2C+Jaipur%2C+Rajasthan+302012" class="flex-1 rounded-lg bg-[#b8e7c4] py-3 text-center text-sm font-semibold text-[#224b2f]">📍 Maps</a>
     </div>
   </div>
-  <script src="{% static 'core/js/site.js' %}"></script>
+  <script src="{% static 'core/js/site.js' %}" defer></script>
 </body>
 </html>

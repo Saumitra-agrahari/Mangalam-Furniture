@@ -1,7 +1,9 @@
-from django.shortcuts import get_object_or_404
+from django.http import Http404
 from django.views.generic import DetailView, ListView
 
-from .models import Category, Item
+from core.cache import get_active_categories
+
+from .models import Item
 
 
 class CategoryIndexView(ListView):
@@ -9,7 +11,7 @@ class CategoryIndexView(ListView):
     context_object_name = "categories"
 
     def get_queryset(self):
-        return Category.objects.filter(is_active=True)
+        return get_active_categories()
 
 
 class CategoryListView(ListView):
@@ -17,8 +19,18 @@ class CategoryListView(ListView):
     context_object_name = "items"
 
     def get_queryset(self):
-        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"], is_active=True)
-        return Item.objects.filter(category=self.category, is_active=True).prefetch_related("images")
+        slug = self.kwargs["category_slug"]
+        self.category = next(
+            (category for category in get_active_categories() if category.slug == slug),
+            None,
+        )
+        if self.category is None:
+            raise Http404("No Category matches the given query.")
+        return (
+            Item.objects.filter(category=self.category, is_active=True)
+            .select_related("category")
+            .prefetch_related("images")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,8 +44,12 @@ class ItemDetailView(DetailView):
     slug_url_kwarg = "item_slug"
 
     def get_queryset(self):
-        return Item.objects.filter(
-            category__slug=self.kwargs["category_slug"],
-            category__is_active=True,
-            is_active=True,
-        ).prefetch_related("images")
+        return (
+            Item.objects.filter(
+                category__slug=self.kwargs["category_slug"],
+                category__is_active=True,
+                is_active=True,
+            )
+            .select_related("category")
+            .prefetch_related("images")
+        )

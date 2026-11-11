@@ -2,7 +2,7 @@
   <div class="item-card__image">
     {% with image=item.images.all|first %}
       {% if image %}
-        <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:item.name }}" loading="lazy">
+        <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:item.name }}" loading="lazy" decoding="async">
       {% else %}
         <span aria-hidden="true">MF</span>
       {% endif %}

@@ -1,5 +1,6 @@
-{% extends "core/base.html" %}
+{% extends "core/base.html" %}{% load static %}
 {% block title %}Manglam Furniture | Premium Furniture in Jaipur{% endblock %}
+{% block extra_head %}<link rel="preload" as="image" href="{% static 'core/images/hero-showroom.webp' %}" fetchpriority="high">{% endblock %}
 {% block content %}
 <section class="hero-band">
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-20 sm:py-28 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:py-32">

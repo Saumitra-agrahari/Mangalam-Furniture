@@ -9,9 +9,11 @@ from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
-from catalog.models import Category, Item
+from catalog.models import Item
+from core.cache import get_active_categories
 
 User = get_user_model()
 
@@ -21,10 +23,12 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["featured_items"] = Item.objects.filter(
-            is_active=True, is_featured=True
-        ).prefetch_related("images")[:8]
-        context["categories"] = Category.objects.filter(is_active=True)[:6]
+        context["featured_items"] = (
+            Item.objects.filter(is_active=True, is_featured=True)
+            .select_related("category")
+            .prefetch_related("images")[:8]
+        )
+        context["categories"] = get_active_categories()[:6]
         return context
 
 
@@ -49,6 +53,7 @@ def _build_reset_state(email, pin=None):
     return state
 
 
+@never_cache
 def admin_forgot_password(request):
     if request.method == "POST":
         email = (request.POST.get("email") or "").strip()
@@ -83,6 +88,7 @@ def admin_forgot_password(request):
     return render(request, "admin/forgot_password.html")
 
 
+@never_cache
 def admin_verify_pin(request):
     state = _get_reset_session(request)
     if not state:
@@ -119,6 +125,7 @@ def admin_verify_pin(request):
     return render(request, "admin/verify_pin.html", {"email": state.get("email", "")})
 
 
+@never_cache
 def admin_reset_password(request):
     state = _get_reset_session(request)
     if not state or not state.get("verified"):
@@ -151,5 +158,6 @@ def admin_reset_password(request):
     return render(request, "admin/reset_password.html", {"email": email})
 
 
+@never_cache
 def admin_password_reset_done(request):
     return render(request, "admin/password_reset_done.html")
